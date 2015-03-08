@@ -57,15 +57,27 @@ game.PlayerEntity = me.Entity.extend({
         }
         dir_set = true;
       }
+      console.log("dir_set: " + dir_set);
+      if (!dir_set) {
+        if (this.renderable.isCurrentAnimation("walk_down")) {
+          this.renderable.setCurrentAnimation("stand_down");
+        } else if (this.renderable.isCurrentAnimation("walk_left")) {
+          this.renderable.setCurrentAnimation("stand_left");
+        } else if (this.renderable.isCurrentAnimation("walk_right")) {
+          this.renderable.setCurrentAnimation("stand_right");
+        } else if (this.renderable.isCurrentAnimation("walk_up")) {
+          this.renderable.setCurrentAnimation("stand_up");
+        }
+      }
 
-        // apply physics to the body (this moves the entity)
-        this.body.update(dt);
+      // apply physics to the body (this moves the entity)
+      this.body.update(dt);
 
-        // handle collisions against other shapes
-        me.collision.check(this);
+      // handle collisions against other shapes
+      me.collision.check(this);
 
-        // return true if we moved or if the renderable was updated
-        return (this._super(me.Entity, 'update', [dt]) || this.body.vel.x !== 0 || this.body.vel.y !== 0);
+      // return true if we moved or if the renderable was updated
+      return (this._super(me.Entity, 'update', [dt]) || this.body.vel.x !== 0 || this.body.vel.y !== 0);
     },
 
    /**
