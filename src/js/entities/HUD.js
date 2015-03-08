@@ -81,12 +81,12 @@ game.HUD.CharacterPanel = me.Container.extend({
   init: function(x, y, w, h) {
     this._super(me.Container, 'init', [x, y, 10, 10]);
     this.font = new me.BitmapFont("32x32_font", 32);
-    this.visible = true;
+    this.visible = false;
 
     var offset = 36;
     var y_off = 0;
     for(i in game.data.player.attributes) {
-      this.addChild(new game.HUD.LabeledValue(x, y + y_off, w, h, this.font, i.toUpperCase() + ":", function(key) { return function() {return game.data.player.attributes[key];}}(i)));
+      this.addChild(new game.HUD.LabeledValue(0, y_off, w, h, this.font, i.toUpperCase() + ":", function(key) { return function() {return game.data.player.attributes[key];}}(i)));
 
       y_off += offset;
     }
@@ -100,16 +100,8 @@ game.HUD.CharacterPanel = me.Container.extend({
     return true;
   },
   draw: function(context) {
-    this._super(me.Container, 'draw', [context]);
-
-
     if(!this.visible) return;
-
-    for(i in this.children) {
-      if(this.children[i] instanceof me.Renderable) {
-        this.children[i].draw(context);
-      }
-    }
+    this._super(me.Container, 'draw', [context]);
   },
 
 });
