@@ -3,13 +3,14 @@
                   /**
                    * Graphics.
                    */
-                  // our level tileset
+                  // Our level tilesets
                   {name: "Wall",  type:"image", src: "data/img/DawnLike_3/Objects/Wall.png"},
                   {name: "Floor",  type:"image", src: "data/img/DawnLike_3/Objects/Floor.png"},
-                  {name: "player", type:"image", src:"data/img/player.png"},
-              
-                  /* 
-                   * Maps. 
+                  // Player
+                  {name: "player", type:"image", src:"data/img/DawnLike_3/Commissions/Template.png"},
+
+                  /*
+                   * Maps.
                    */
                   {name: "aroom", type: "tmx", src: "data/map/aroom.tmx"}
                 ];
