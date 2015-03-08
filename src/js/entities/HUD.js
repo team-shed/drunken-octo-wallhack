@@ -77,30 +77,38 @@ game.HUD.ScoreItem = me.Renderable.extend({
 /**
  * Character stats screen
  */
-game.HUD.CharacterPanel = me.Renderable.extend({
+game.HUD.CharacterPanel = me.Container.extend({
   init: function(x, y, w, h) {
-    this._super(me.Renderable, 'init', [x, y, 10, 10]);
+    this._super(me.Container, 'init', [x, y, 10, 10]);
     this.font = new me.BitmapFont("32x32_font", 32);
     this.visible = true;
+
+    var offset = 36;
+    var y_off = 0;
+    for(i in game.data.player.attributes) {
+      this.addChild(new game.HUD.LabeledValue(x, y + y_off, w, h, this.font, i.toUpperCase() + ":", function(key) { return function() {return game.data.player.attributes[key];}}(i)));
+
+      y_off += offset;
+    }
   },
-  update: function() {
+  update: function(dt) {
+    this._super(me.Container, 'update', [dt]);
+
     if (me.input.isKeyPressed("charPanel")) {
       this.visible = !this.visible;
     }
     return true;
   },
   draw: function(context) {
+    this._super(me.Container, 'draw', [context]);
+
+
     if(!this.visible) return;
 
-    var offset = 36;
-    var y_off = 0;
-    for(i in game.data.player.attributes) {
-      this.font.set("right");
-      this.font.draw(context, i.toUpperCase() + ":", this.pos.x, this.pos.y + y_off);
-      this.font.set("left");
-      this.font.draw(context, game.data.player.attributes[i], this.pos.x, this.pos.y + y_off);
-
-      y_off += offset;
+    for(i in this.children) {
+      if(this.children[i] instanceof me.Renderable) {
+        this.children[i].draw(context);
+      }
     }
   },
 
@@ -116,6 +124,35 @@ game.HUD.Label = me.Renderable.extend({
     return false;
   },
   draw: function(context) {
+    this.font.draw(context, this.value, this.pos.x, this.pos.y);
+  }
+});
+
+/*
+ * Takes a label and a function used to get the value to be displayed.
+ */
+game.HUD.LabeledValue = me.Renderable.extend({
+  init: function(x, y, w, h, font, label, func) {
+    this._super(me.Renderable, 'init', [x, y, w, h]);
+    this.font = font;
+    this.label = label;
+    this.value = 0;
+    this.func = func;
+  },
+  update: function() {
+    if(this.func) {
+      var v = this.func();
+      if(this.value != v) {
+        this.value = v;
+        return true;
+      }
+    }
+    return false;
+  },
+  draw: function(context) {
+    this.font.set("right");
+    this.font.draw(context, this.label, this.pos.x, this.pos.y);
+    this.font.set("left");
     this.font.draw(context, this.value, this.pos.x, this.pos.y);
   }
 });

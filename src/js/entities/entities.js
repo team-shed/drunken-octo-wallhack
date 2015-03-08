@@ -23,9 +23,9 @@ game.PlayerEntity = me.Entity.extend({
 
         this.attributes = {
           perceptive: 1,
-          indignant: 0,
-          resigned: 0,
-          clever: 0
+          indignant: 3,
+          resigned: 1,
+          clever: 5
         };
     },
 
