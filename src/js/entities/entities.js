@@ -9,12 +9,55 @@ game.PlayerEntity = me.Entity.extend({
     init:function (x, y, settings) {
         // call the constructor
         this._super(me.Entity, 'init', [x, y , settings]);
+        this.body.setVelocity(0, 0);
+        me.game.viewport.follow(this.pos, me.game.viewport.AXIS.BOTH);
+        this.alwaysUpdate = true;
+        this.renderable.addAnimation("walk_down", [0, 1, 2, 3]);
+        this.renderable.addAnimation("walk_left", [4, 5, 6, 7]);
+        this.renderable.addAnimation("walk_right", [8, 9, 10, 11]);
+        this.renderable.addAnimation("walk_up", [12, 13, 14, 15]);
+        this.renderable.addAnimation("stand_down", [0]);
+        this.renderable.addAnimation("stand_left", [4]);
+        this.renderable.addAnimation("stand_right", [8]);
+        this.renderable.addAnimation("stand_up", [12]);
     },
 
     /**
      * update the entity
      */
     update : function (dt) {
+
+      if (me.input.isKeyPressed("down")) {
+        this.body.vel.y += this.body.accel.y * me.timer.tick;
+        if (!this.renderable.isCurrentAnimation("walk_down")) {
+          this.renderable.setCurrentAnimation("walk_down");
+        }
+      } else if (me.input.isKeyPressed("left")) {
+        this.body.vel.x -= this.body.accel.x * me.timer.tick;
+        if (!this.renderable.isCurrentAnimation("walk_left")) {
+          this.renderable.setCurrentAnimation("walk_left");
+        }
+      } else if (me.input.isKeyPressed("right")) {
+        this.body.vel.x += this.body.accel.x * me.timer.tick;
+        if (!this.renderable.isCurrentAnimation("walk_right")) {
+          this.renderable.setCurrentAnimation("walk_right");
+        }
+      } else if (me.input.isKeyPressed("up")) {
+        this.body.vel.y -= this.body.accel.y * me.timer.tick;
+        if (!this.renderable.isCurrentAnimation("walk_up")) {
+          this.renderable.setCurrentAnimation("walk_up");
+        }
+      } else {
+        if (this.renderable.isCurrentAnimation("walk_down")) {
+          this.renderable.setCurrentAnimation("stand_down");
+        } else if (this.renderable.isCurrentAnimation("walk_left")) {
+          this.renderable.setCurrentAnimation("stand_left");
+        } else if (this.renderable.isCurrentAnimation("walk_right")) {
+          this.renderable.setCurrentAnimation("stand_right");
+        } else if (this.renderable.isCurrentAnimation("walk_up")) {
+          this.renderable.setCurrentAnimation("stand_up");
+        }
+      }
 
         // apply physics to the body (this moves the entity)
         this.body.update(dt);
