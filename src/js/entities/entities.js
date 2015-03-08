@@ -9,7 +9,7 @@ game.PlayerEntity = me.Entity.extend({
     init:function (x, y, settings) {
         // call the constructor
         this._super(me.Entity, 'init', [x, y , settings]);
-        this.body.setVelocity(0, 0);
+        this.body.setVelocity(3, 3);
         me.game.viewport.follow(this.pos, me.game.viewport.AXIS.BOTH);
         this.alwaysUpdate = true;
         this.renderable.addAnimation("walk_down", [0, 1, 2, 3]);
@@ -20,13 +20,13 @@ game.PlayerEntity = me.Entity.extend({
         this.renderable.addAnimation("stand_left", [4]);
         this.renderable.addAnimation("stand_right", [8]);
         this.renderable.addAnimation("stand_up", [12]);
+        this.renderable.setCurrentAnimation("stand_down");
     },
 
     /**
      * update the entity
      */
     update : function (dt) {
-
       if (me.input.isKeyPressed("down")) {
         this.body.vel.y += this.body.accel.y * me.timer.tick;
         if (!this.renderable.isCurrentAnimation("walk_down")) {
@@ -48,6 +48,8 @@ game.PlayerEntity = me.Entity.extend({
           this.renderable.setCurrentAnimation("walk_up");
         }
       } else {
+        this.body.vel.y = 0;
+        this.body.vel.x = 0;
         if (this.renderable.isCurrentAnimation("walk_down")) {
           this.renderable.setCurrentAnimation("stand_down");
         } else if (this.renderable.isCurrentAnimation("walk_left")) {
