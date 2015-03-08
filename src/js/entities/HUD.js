@@ -24,8 +24,11 @@ game.HUD.Container = me.Container.extend({
         this.name = "HUD";
 
         // add our child score object at the top left corner
-        this.addChild(new game.HUD.ScoreItem(5, 5));
-    }
+        this.addChild(new game.HUD.ScoreItem(630, 440));
+
+        this.charPanel = new game.HUD.CharacterPanel(600, 100, 100, 100);
+        this.addChild(this.charPanel);
+    },
 });
 
 
@@ -41,6 +44,9 @@ game.HUD.ScoreItem = me.Renderable.extend({
         // call the parent constructor
         // (size does not matter here)
         this._super(me.Renderable, 'init', [x, y, 10, 10]);
+
+        this.font = new me.BitmapFont("32x32_font", 32);
+        this.font.set("right");
 
         // local copy of the global score
         this.score = -1;
@@ -63,7 +69,53 @@ game.HUD.ScoreItem = me.Renderable.extend({
      * draw the score
      */
     draw : function (context) {
-        // draw it baby !
+      this.font.draw(context, game.data.score, this.pos.x, this.pos.y);
     }
 
+});
+
+/**
+ * Character stats screen
+ */
+game.HUD.CharacterPanel = me.Renderable.extend({
+  init: function(x, y, w, h) {
+    this._super(me.Renderable, 'init', [x, y, 10, 10]);
+    this.font = new me.BitmapFont("32x32_font", 32);
+    this.visible = true;
+  },
+  update: function() {
+    if (me.input.isKeyPressed("charPanel")) {
+      this.visible = !this.visible;
+    }
+    return true;
+  },
+  draw: function(context) {
+    if(!this.visible) return;
+
+    var offset = 36;
+    var y_off = 0;
+    for(i in game.data.player.attributes) {
+      this.font.set("right");
+      this.font.draw(context, i.toUpperCase() + ":", this.pos.x, this.pos.y + y_off);
+      this.font.set("left");
+      this.font.draw(context, game.data.player.attributes[i], this.pos.x, this.pos.y + y_off);
+
+      y_off += offset;
+    }
+  },
+
+});
+
+game.HUD.Label = me.Renderable.extend({
+  init: function(x, y, w, h, font, value) {
+    this.font = font;
+    this.value = "";
+    if(value !== null) this.value = value;
+  },
+  update: function() {
+    return false;
+  },
+  draw: function(context) {
+    this.font.draw(context, this.value, this.pos.x, this.pos.y);
+  }
 });

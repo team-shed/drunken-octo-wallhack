@@ -8,6 +8,7 @@
                   {name: "Floor",  type:"image", src: "data/img/DawnLike_3/Objects/Floor.png"},
                   // Player
                   {name: "player", type:"image", src:"data/img/DawnLike_3/Commissions/Template.png"},
+                  {name: "32x32_font", type:"image", src: "data/img/font/32x32_font.png"},
 
                   /*
                    * Maps.

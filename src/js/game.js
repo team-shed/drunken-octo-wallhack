@@ -57,6 +57,8 @@ var game = {
         me.input.bindKey(me.input.KEY.DOWN, "down");
         me.input.bindKey(me.input.KEY.S, "down");
 
+        me.input.bindKey(me.input.KEY.C, "charPanel", true);
+
         // Start the game.
         me.state.change(me.state.PLAY);
     }

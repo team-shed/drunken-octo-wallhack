@@ -2,7 +2,6 @@
  * Player Entity
  */
 game.PlayerEntity = me.Entity.extend({
-
     /**
      * constructor
      */
@@ -21,6 +20,13 @@ game.PlayerEntity = me.Entity.extend({
         this.renderable.addAnimation("stand_right", [8]);
         this.renderable.addAnimation("stand_up", [12]);
         this.renderable.setCurrentAnimation("stand_down");
+
+        this.attributes = {
+          perceptive: 1,
+          indignant: 0,
+          resigned: 0,
+          clever: 0
+        };
     },
 
     /**

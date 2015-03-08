@@ -8,6 +8,9 @@ game.PlayScreen = me.ScreenObject.extend({
 
         // reset the score
         game.data.score = 0;
+        
+        // Should handle multiple possible spawn points, zero or more than one player
+        game.data.player = me.game.world.getChildByName("mainplayer")[0];
 
         // add our HUD to the game world
         this.HUD = new game.HUD.Container();
