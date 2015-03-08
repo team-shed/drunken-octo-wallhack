@@ -57,7 +57,7 @@ game.PlayerEntity = me.Entity.extend({
         }
         dir_set = true;
       }
-      console.log("dir_set: " + dir_set);
+      
       if (!dir_set) {
         if (this.renderable.isCurrentAnimation("walk_down")) {
           this.renderable.setCurrentAnimation("stand_down");
