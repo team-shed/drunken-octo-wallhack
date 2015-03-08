@@ -27,38 +27,35 @@ game.PlayerEntity = me.Entity.extend({
      * update the entity
      */
     update : function (dt) {
+      var dir_set = false;
+      this.body.vel.x = this.body.vel.y = 0;
       if (me.input.isKeyPressed("down")) {
         this.body.vel.y += this.body.accel.y * me.timer.tick;
         if (!this.renderable.isCurrentAnimation("walk_down")) {
           this.renderable.setCurrentAnimation("walk_down");
         }
-      } else if (me.input.isKeyPressed("left")) {
+        dir_set = true;
+      }
+      if (me.input.isKeyPressed("left")) {
         this.body.vel.x -= this.body.accel.x * me.timer.tick;
         if (!this.renderable.isCurrentAnimation("walk_left")) {
           this.renderable.setCurrentAnimation("walk_left");
         }
-      } else if (me.input.isKeyPressed("right")) {
+        dir_set = true;
+      }
+      if (me.input.isKeyPressed("right")) {
         this.body.vel.x += this.body.accel.x * me.timer.tick;
         if (!this.renderable.isCurrentAnimation("walk_right")) {
           this.renderable.setCurrentAnimation("walk_right");
         }
-      } else if (me.input.isKeyPressed("up")) {
+        dir_set = true;
+      }
+      if (me.input.isKeyPressed("up")) {
         this.body.vel.y -= this.body.accel.y * me.timer.tick;
         if (!this.renderable.isCurrentAnimation("walk_up")) {
           this.renderable.setCurrentAnimation("walk_up");
         }
-      } else {
-        this.body.vel.y = 0;
-        this.body.vel.x = 0;
-        if (this.renderable.isCurrentAnimation("walk_down")) {
-          this.renderable.setCurrentAnimation("stand_down");
-        } else if (this.renderable.isCurrentAnimation("walk_left")) {
-          this.renderable.setCurrentAnimation("stand_left");
-        } else if (this.renderable.isCurrentAnimation("walk_right")) {
-          this.renderable.setCurrentAnimation("stand_right");
-        } else if (this.renderable.isCurrentAnimation("walk_up")) {
-          this.renderable.setCurrentAnimation("stand_up");
-        }
+        dir_set = true;
       }
 
         // apply physics to the body (this moves the entity)
