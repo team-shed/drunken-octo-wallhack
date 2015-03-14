@@ -6,6 +6,8 @@ var game = {
     data : {
         // score
         score : 0,
+        // inventory
+        inventory: [[null, 0], [null, 0], [null, 0], [null, 0]]
     },
 
 
@@ -47,6 +49,7 @@ var game = {
 
         // add our player entity in the entity pool
         me.pool.register("mainPlayer", game.PlayerEntity);
+        me.pool.register("arrow", game.ArrowEntity);
 
         me.input.bindKey(me.input.KEY.LEFT, "left");
         me.input.bindKey(me.input.KEY.A, "left");
@@ -58,6 +61,11 @@ var game = {
         me.input.bindKey(me.input.KEY.S, "down");
 
         me.input.bindKey(me.input.KEY.C, "charPanel", true);
+
+        me.input.bindKey(me.input.KEY.ONE, "item1");
+        me.input.bindKey(me.input.KEY.TWO, "item2");
+        me.input.bindKey(me.input.KEY.THREE, "item3");
+        me.input.bindKey(me.input.KEY.FOUR, "item4");
 
         // Start the game.
         me.state.change(me.state.PLAY);

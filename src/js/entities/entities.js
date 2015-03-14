@@ -63,7 +63,7 @@ game.PlayerEntity = me.Entity.extend({
         }
         dir_set = true;
       }
-      
+
       if (!dir_set) {
         if (this.renderable.isCurrentAnimation("walk_down")) {
           this.renderable.setCurrentAnimation("stand_down");
@@ -95,3 +95,19 @@ game.PlayerEntity = me.Entity.extend({
         return true;
     }
 });
+
+game.ArrowEntity = me.Entity.extend({
+  init: function(x, y, settings) {
+    this._super(me.Entity, 'init', [x, y , settings]);
+    this.body.setVelocity(12, 12);
+    this.alwaysUpdate = true;
+  }
+  update: function(dt) {
+    this.body.update(dt);
+    me.collision.check(this);
+    return this._super(me.Entity, 'update', [dt]) || this.body.vel.x !== 0 || this.body.vel.y !== 0;
+  }
+  onCollision: function(response, other) {
+
+  }
+})
